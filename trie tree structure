@@ -1,0 +1,290 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package trie;
+
+/**
+ *
+ * @author Samran
+ */
+public class Trie {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        // TODO code application logic here
+        trie obj=new trie();
+        obj.insert("abc");
+        obj.insert("acb");
+        
+     //   obj.insert("AAA");
+        
+      //obj.search("AAA");
+        
+        obj.insert("AAA");
+        obj.insert("dfs");
+       // obj.insert("df");
+      //  obj.search("ccc");
+    //      System.out.println("After deletion");
+    //  System.out.println("string AAA before deletion "); 
+        obj.search("AAA");
+        obj.search("aaa");
+     
+      obj.delete("dfs");
+       obj.search("dfs");
+    }
+    
+}
+class node
+{
+     
+    char d;
+    boolean endofword;
+    node []child;
+    node ()
+    {
+        child=new node[26];
+        endofword=false;
+    }
+    
+    node(char c)
+    {
+        d=c;
+        child =new node[26];
+        endofword=false;
+    }
+}
+class trie 
+{
+    node  root =new node();
+    node  temp=root;
+    void insert(String str)
+    { 
+       
+        node temp=root;
+        node tempp;
+       
+       int ii,t;
+      char []c=str.toCharArray();
+      for(int i=0;i<str.length();i++)
+      {
+      if(c[i]>=97)
+      {  
+          
+          
+                  ii=c[i];
+                  ii=ii-97;
+                  
+              
+                  tempp=new node(c[i]);
+                  temp.child[ii]=tempp;
+                  temp=temp.child[ii];
+              
+              t=i+1;
+              if(t==str.length())
+              {
+                  temp.endofword=true;
+              }
+          
+      }
+      else if(c[i]<97&& c[i]>=65)
+      {
+          
+            
+                  ii=c[i];
+                  ii=ii-65;
+                  
+                  
+                  tempp=new node(c[i]);
+                  temp.child[ii]= tempp;
+                  temp=temp.child[ii];
+              
+              t=i+1;
+              if(t==str.length())
+              {
+                  temp.endofword=true;
+              }
+            
+      }
+     }
+    }
+    void search(String str)
+    {  
+        char []c=str.toCharArray();
+         temp =root;
+        int ii,t;
+        if(root == null)
+        {
+            System.out.println("There are no elements in the tree bro ");
+        }
+        else 
+        {
+              for(int i=0;i<str.length();i++)
+              {
+                  if(c[i]>=97)
+                  {
+                      ii=c[i];
+                      ii=ii-97;
+                      
+                      if(temp.child[ii]!=null)
+                      temp=temp.child[ii];
+                     
+                          t=i+1;
+                          if(t==str.length())
+                          {
+                              if(temp.endofword)
+                              {
+                                  System.out.println("word found baby");
+                              }
+                          }
+                      
+                  }
+                else if(c[i]<97&&c[i]>=65)
+                  {
+                      ii=c[i];
+                      ii=ii-65;
+                      if(temp.child[ii]!=null)
+                      temp=temp.child[ii];
+                     
+                          t=i+1;
+                          if(t==str.length())
+                          {
+                              if(temp.endofword)
+                              {
+                                  System.out.println("word found baby");
+                              }
+                          }
+                      
+                  }
+              }
+              if(temp!=null)
+              {
+                  if(!temp.endofword)
+                  {
+                      System.out.println("word not found ");
+                  }
+              }
+              
+        }
+    }
+    
+    
+    boolean find(String str)
+    {  
+        char []c=str.toCharArray();
+        node temp =root;
+        int ii,t;
+        if(root == null)
+        {
+            System.out.println("There are no elements in the tree bro ");
+            
+        }
+        else 
+        {
+              for(int i=0;i<str.length();i++)
+              {
+                  if(c[i]>=97)
+                  {
+                      ii=c[i];
+                      ii=ii-97;
+                      
+                      if(temp.child[ii]!=null)
+                      temp=temp.child[ii];
+                     
+                          t=i+1;
+                          if(t==str.length())
+                          {
+                              if(temp.endofword)
+                              {
+                                  return true;
+                              }
+                          }
+                      
+                  }
+                  
+                  else if(c[i]<97&&c[i]>=65)
+                  {
+                      ii=c[i];
+                      ii=ii-65;
+                      
+                      if(temp.child[ii]!=null)
+                      temp=temp.child[ii];
+                     
+                          t=i+1;
+                          if(t==str.length())
+                          {
+                              if(temp.endofword)
+                              {
+                                  System.out.println("word found baby");
+                              }
+                          }
+                      
+                  }
+              }
+        }
+        return false;
+    }
+    
+    
+    
+   void delet(String str,node temp,int i)
+    {
+        if(i<str.length())
+        {  int ii,t;
+           char []c=str.toCharArray();
+       
+            if(c[i]>=97)
+            {  
+                  ii=c[i];
+                  ii=ii-97;
+                  
+                  if(temp.child[ii]!=null)
+                  temp=temp.child[ii];
+                  
+                  i++;
+                  delet(str,temp,i);
+            }
+            
+            else if(c[i]<97&& c[i]>=65)
+                {
+                  ii=c[i];
+                  ii=ii-65;
+                  
+                  if(temp.child[ii]!=null)
+                  temp=temp.child[ii];
+                  
+                  i++;
+                  delet(str,temp,i);
+            
+                }
+           
+                
+         }
+         else
+        {  boolean CheckForChild=false;
+            for(int j=0;j<26;j++)
+            {
+                if(temp.child[j]!=null)
+                    CheckForChild=true;
+            }
+            if(CheckForChild)
+            {   temp.endofword=false;
+                
+            }
+            else
+            {
+                temp=null;
+            }   
+        
+        }
+        
+    }
+    void delete(String str)
+    {   temp=root;
+        delet(str,temp,0);
+    }
+       
+}
